@@ -61,10 +61,12 @@
     <!-- End Django override -->
 
     <!-- Django override: Only this portion is getting change -->
+    {% if grand_total %}
     <p>
       <b>Total bill : </b>
     {{grand_total}}
     </p>
+    {% endif %}
     <!-- End Django override -->
 {% endfor %}
 {% endblock %}

@@ -1,15 +1,14 @@
 from django.contrib import admin
 import nested_admin
-from .models import ProductItem, AreaName, BillModel, CompanyBill
+from .models import Company, Area, Products, ProductDetails, Bills
 
 class ProductInline(nested_admin.NestedTabularInline): # or StackedInline
-    model = BillModel
+    model = Bills
     template = 'admin/bills/table.html'
     extra = 0
-    
 
 class BillInline(nested_admin.NestedStackedInline): # or StackedInline
-    model = ProductItem
+    model = ProductDetails
     template = 'admin/bills/stacked.html'
     extra = 0
     inlines = [ProductInline]
@@ -45,5 +44,6 @@ class BillAdmin(nested_admin.NestedModelAdmin):
             extra_context=my_context)
 
 # Register your models here.
-admin.site.register(AreaName)
-admin.site.register(CompanyBill, BillAdmin)
+admin.site.register(Area)
+admin.site.register(Products)
+admin.site.register(Company, BillAdmin)

@@ -7,38 +7,66 @@ UNIT_NAME = [
 ]
 
 # Create your models here.
-
-class CompanyBill(models.Model):
-    company_name = models.CharField(max_length=500)
+class Company(models.Model):
+    '''
+        This model stores company name
+    '''
+    company = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.company_name
+        return self.company
 
-class ProductItem(models.Model):
+    class Meta:
+        verbose_name = 'Final Bill'
+        verbose_name_plural = 'Final Bills'
+
+class Area(models.Model):
     '''
-        This model stores product item name
+        This model stores area name
     '''
-    company = models.ForeignKey(CompanyBill, on_delete=models.CASCADE)
-    item_name = models.CharField(max_length=500)
+    area = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.area
+
+class Products(models.Model):
+    '''
+        This model stores product name
+    '''
+    product_name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.product_name
+    
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
+
+class ProductDetails(models.Model):
+    '''
+        This model stores product details
+    '''
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
     unit = models.CharField(max_length=5, choices=UNIT_NAME)
     prize = models.IntegerField()
 
     def __str__(self):
-        return self.item_name
+        return self.product.product_name
+            
+    class Meta:
+        verbose_name = 'Bill Details'
+        verbose_name_plural = 'Bill Details'
 
-class AreaName(models.Model):
-    '''
-        This model stores area name
-    '''
-    area_name = models.CharField(max_length=500)
-
-    def __str__(self):
-        return self.area_name
-
-class BillModel(models.Model):
-    items = models.ForeignKey(ProductItem, on_delete=models.CASCADE)
-    area = models.ForeignKey(AreaName, on_delete=models.CASCADE)
+class Bills(models.Model):
+    items = models.ForeignKey(ProductDetails, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
     quantity = models.IntegerField()
 
     def __str__(self):
         return ''
+    
+    class Meta:
+        verbose_name = 'Sheet Details'
+        verbose_name_plural = 'Sheet Details'
