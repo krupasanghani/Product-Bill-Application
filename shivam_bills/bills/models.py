@@ -1,9 +1,9 @@
 from django.db import models
 
 UNIT_NAME = [
-    ('nos', 'NOS'),
-    ('meter', 'MTRS'),
-    ('feet', 'FEET')
+    ('NOS', 'NOS'),
+    ('MTRS', 'MTRS'),
+    ('FEET', 'FEET')
 ]
 
 # Create your models here.

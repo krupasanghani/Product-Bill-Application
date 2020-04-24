@@ -1,0 +1,69 @@
+<html>
+<head>
+  <title>Sheet</title>
+  <style>
+    body,
+    html {
+      margin: -2rem;
+    }
+    @page {size: A4 landscape;}
+    table,
+    th,
+    td {
+      border: 1px solid #000;
+      border-spacing: 0;
+      margin: 0;
+      padding: 0;
+    }
+    th {
+      padding: 10px 0;
+      text-align: center;
+    }
+    th div {
+      display: inline-block;
+      white-space: nowrap;
+      transform: translate(0,100%) rotate(-90deg);
+      transform-origin: 0 0;
+    }
+    th div:after {
+        content: "";
+        float: left;
+        margin-top: 100%;
+    }
+    td {
+      padding: 5px;
+    }
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <thead>
+        <th><div>Particular</div></th>
+        {% for i in area %}
+          <th><div>{{i}}</div></th>
+        {% endfor %} 
+        <th><div>Total</div></th>
+    </thead>
+    <tbody>
+      {% for i in total_quantity %}
+      <tr>
+        <td>{{i.product}}</td>
+        {% for k in area %}
+          <td>
+          {% for j in product %}
+            {% if j.product_name == i.product and k == j.area %}
+              {{j.quantity}}
+            {% endif %}
+          {% endfor %}
+          </td>
+        {% endfor %}
+        <td>{{i.quantity}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

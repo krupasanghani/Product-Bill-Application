@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <title>Bills</title>
+  <style>
+    body,
+    html {
+      margin: -.5rem;
+    }
+    
+    table,
+    th,
+    td {
+      border: 1px solid #444444;
+      border-spacing: 0;
+      margin: 0;
+      padding: 0;
+    }
+    
+    th,
+    td {
+      padding: 5px;
+    }
+    
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="clear:both;overflow:hidden;background-color:#dddddd;margin-bottom:5px;border:1px solid #111;">
+    <div style="width:74%;float:left;border-right:1px solid #111;padding:0 5px;">
+      <p style="margin-bottom:10px;margin-top:5px"><b>DHANSUKH SANGHANI</b></p>
+      <p style="margin-bottom:10px;margin-top:5px"><b>Contact: </b>9825130396</p>
+      <p style="margin-bottom:10px;margin-top:5px"><b>Email:</b>shivamdn303@gmail.com</p>
+    </div>
+    <div style="width:25;float:left;height:100%;padding:0 5px;"><b>{{company_name}}</b></div>
+    <div style="clear:both;border-top:1px solid #111;background-color: #bbb;text-align:center;margin: 0">
+      <p style="margin:0;padding:5px"><b>104 - Dreamland complex,Sarthana, Surat.</b></p>
+    </div>
+  </div>
+  <div style="clear:both;overflow:hidden;">
+    <div style="width:10%;float:left">To,</div>
+    <div style="width:56.66%;float:left"><b>{{company_name}}</b></div>
+    <div style="width:33.33%;float:left"><b>Date:</b></div>
+  </div>
+  <br>
+  <table>
+    <thead>
+      <th>Sr no.</th>
+      <th>Particular Item</th>
+      <th>UNIT</th>
+      <th>QTY</th>
+      <th>RATE</th>
+      <th style="text-align:center">TOTAL</th>
+    </thead>
+    <tbody>
+      {% for i in bills %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.product}}</td>
+        <td>{{i.unit}}</td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.rate}}</td>
+        <td style="text-align:center">{{i.total}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan=5></td>
+        <td style="text-align:center">{{grand_total}}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

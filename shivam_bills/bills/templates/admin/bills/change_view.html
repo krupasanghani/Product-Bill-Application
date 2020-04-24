@@ -68,6 +68,13 @@
     </p>
     {% endif %}
     <!-- End Django override -->
+
+    {% if original.pk %}
+    <div style="text-align:right;margin:10px;">
+      <a target="_blank" href="{% url 'pdf_generate' original.pk %}" class="button" style="padding:10px;margin:0 5px">Download Sheet</a>
+      <a target="_blank" href="{% url 'download_bills' original.pk %}" class="button" style="padding:10px">Download Bill</a>
+    </div>
+    {% endif %}
 {% endfor %}
 {% endblock %}
 

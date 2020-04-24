@@ -16,19 +16,18 @@ class BillInline(nested_admin.NestedStackedInline): # or StackedInline
 class BillAdmin(nested_admin.NestedModelAdmin):
     inlines = [BillInline]
     change_form_template = 'admin/bills/change_view.html'
-    def get_total(self):
+    def get_total(self, object_id):
         arr_total = []
         for j in self.inlines[0].model.objects.all():
             total = 0
-            print(j.prize)
             for i in self.inlines[0].inlines[0].model.objects.all():
-                if j == i.items:
+                if j == i.items and Company.objects.get(pk=object_id) == j.company:
                     total += i.quantity
             arr_total.append({'product': j ,'quantity': total, 'prize': total*j.prize})
         return arr_total
     
-    def grand_total(self):
-        total = self.get_total()
+    def grand_total(self, object_id):
+        total = self.get_total(object_id)
         grand_total = 0
         for i in total:
             grand_total += i['prize']
@@ -37,8 +36,8 @@ class BillAdmin(nested_admin.NestedModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         my_context = {
-            'order_total': self.get_total(),
-            'grand_total': self.grand_total(),
+            'order_total': self.get_total(object_id),
+            'grand_total': self.grand_total(object_id),
         }
         return super(BillAdmin, self).change_view(request, object_id, form_url,
             extra_context=my_context)
