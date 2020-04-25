@@ -2,6 +2,8 @@ from django.contrib import admin
 import nested_admin
 from .models import Company, Area, Products, ProductDetails, Bills, CompanySetting
 from solo.admin import SingletonModelAdmin
+from django.utils.html import format_html
+from django.urls import reverse
 
 class ProductInline(nested_admin.NestedTabularInline): # or StackedInline
     model = Bills
@@ -15,6 +17,10 @@ class BillInline(nested_admin.NestedStackedInline): # or StackedInline
 
 class BillAdmin(nested_admin.NestedModelAdmin):
     inlines = [BillInline]
+    list_display = (
+        'company',
+        'account_actions',
+    )
     change_form_template = 'admin/bills/change_view.html'
     def get_total(self, object_id):
         arr_total = []
@@ -40,6 +46,16 @@ class BillAdmin(nested_admin.NestedModelAdmin):
         }
         return super(BillAdmin, self).change_view(request, object_id, form_url,
             extra_context=my_context)
+    
+    def account_actions(self, obj):
+        return format_html(
+            '<a class="button" target="_blank" href="{}">Download Sheet</a>&nbsp;'
+            '<a class="button" target="_blank" href="{}">Download Bill</a>',
+            reverse('pdf_generate', args=[obj.pk]),
+            reverse('download_bills', args=[obj.pk]),
+        )
+    account_actions.short_description = 'Actions'
+    account_actions.allow_tags = True
 
 # Register your models here.
 admin.site.register(Area)
