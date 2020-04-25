@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.validators import RegexValidator
+from solo.models import SingletonModel
+from simple_history.models import HistoricalRecords
 
 UNIT_NAME = [
     ('NOS', 'NOS'),
@@ -7,12 +10,36 @@ UNIT_NAME = [
 ]
 
 # Create your models here.
+class CompanySetting(SingletonModel):
+    '''
+        This model store compant settings like - Name, Email, Contact, Address, Logo
+    '''
+    name = models.CharField(max_length=500)
+    logo = models.ImageField(upload_to = 'pic_folder/')
+    email = models.EmailField()
+    contact = models.CharField(max_length=13, validators=[
+        RegexValidator(
+            regex='[0-9]{10,13}$',
+            message='Invalid contact number. Maximum 10-13 digits are allowed.',
+            code='invalid_username'
+        ),
+    ])
+    address = models.TextField()
+
+    def __str__(self):
+        return "Company Settings"
+
+    class Meta:
+        verbose_name = "Company Settings"
+        verbose_name_plural = "Company Settings"
+
 class Company(models.Model):
     '''
         This model stores company name
     '''
     company = models.CharField(max_length=500)
-
+    history = HistoricalRecords()
+    
     def __str__(self):
         return self.company
 

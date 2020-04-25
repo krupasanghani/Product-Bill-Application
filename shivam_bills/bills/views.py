@@ -5,6 +5,8 @@ from django.core.files.storage import FileSystemStorage
 from django.template.loader import render_to_string
 from .admin import Area, Bills, Company, ProductDetails 
 from weasyprint import HTML
+from datetime import datetime
+
 # Create your views here.
 def downaload_sheet(request, object_id):
     area = Area.objects.all()
@@ -49,16 +51,17 @@ def download_bills(request, object_id):
             if str(i.items) == str(j.product):
                 total += i.quantity 
         arr_total.append({'product': j.product, 'unit': j.unit,'quantity': total, 'rate': j.prize, 'total': total*j.prize})
-    print(arr_total)
     grand_total = 0
     for i in arr_total:
         grand_total += i['total']
 
-    print(grand_total)
+    domain = request.build_absolute_uri('/')[:-1]
     html_string = render_to_string('bills.html', {
         'company_name': company_name,
         'bills': arr_total,
         'grand_total': grand_total,
+        'domain': domain,
+        'date': company_name.history.last().history_date
         })
 
     html = HTML(string=html_string)

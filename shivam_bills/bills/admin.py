@@ -1,10 +1,10 @@
 from django.contrib import admin
 import nested_admin
-from .models import Company, Area, Products, ProductDetails, Bills
+from .models import Company, Area, Products, ProductDetails, Bills, CompanySetting
+from solo.admin import SingletonModelAdmin
 
 class ProductInline(nested_admin.NestedTabularInline): # or StackedInline
     model = Bills
-    template = 'admin/bills/table.html'
     extra = 0
 
 class BillInline(nested_admin.NestedStackedInline): # or StackedInline
@@ -31,7 +31,6 @@ class BillAdmin(nested_admin.NestedModelAdmin):
         grand_total = 0
         for i in total:
             grand_total += i['prize']
-        print(grand_total)
         return grand_total
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
@@ -46,3 +45,4 @@ class BillAdmin(nested_admin.NestedModelAdmin):
 admin.site.register(Area)
 admin.site.register(Products)
 admin.site.register(Company, BillAdmin)
+admin.site.register(CompanySetting, SingletonModelAdmin)

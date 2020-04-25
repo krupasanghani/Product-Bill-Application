@@ -1,3 +1,4 @@
+{% load solo_tags %}
 <html>
 
 <head>
@@ -25,26 +26,56 @@
     table {
       width: 100%;
     }
+    img {
+      display: block;
+      max-width: 100%;
+    }
+    .flex-container {
+      display:flex;
+      flex-wrap: wrap;
+      background-color:#dddddd;
+      margin-bottom:5px;
+      border:1px solid #111;
+    }
+    .flex-25 {
+      flex: 0 0 25%;
+      max-width: 25%;
+      padding:0 5px;
+    }
+    .flex-75 {
+      flex: 0 0 75%;
+      max-width: 75%;
+      padding:0 5px;
+    }
+    .flex-100 {
+      flex: 0 0 100%;
+      max-width: 100%;
+      padding:0 5px;
+    }
   </style>
 </head>
 
 <body>
-  <div style="clear:both;overflow:hidden;background-color:#dddddd;margin-bottom:5px;border:1px solid #111;">
-    <div style="width:74%;float:left;border-right:1px solid #111;padding:0 5px;">
-      <p style="margin-bottom:10px;margin-top:5px"><b>DHANSUKH SANGHANI</b></p>
-      <p style="margin-bottom:10px;margin-top:5px"><b>Contact: </b>9825130396</p>
-      <p style="margin-bottom:10px;margin-top:5px"><b>Email:</b>shivamdn303@gmail.com</p>
+  {% get_solo 'bills.CompanySetting' as site_config %}
+  <div class='flex-container'>
+    <div class="flex-75">
+      <p style="margin-bottom:10px;margin-top:5px"><b>{{site_config.name}}</b></p>
+      <p style="margin-bottom:10px;margin-top:5px"><b>Contact: </b>{{site_config.contact}}</p>
+      <p style="margin-bottom:10px;margin-top:5px"><b>Email:</b>{{site_config.email}}</p>
     </div>
-    <div style="width:25;float:left;height:100%;padding:0 5px;"><b>{{company_name}}</b></div>
-    <div style="clear:both;border-top:1px solid #111;background-color: #bbb;text-align:center;margin: 0">
-      <p style="margin:0;padding:5px"><b>104 - Dreamland complex,Sarthana, Surat.</b></p>
+    <div class="flex-25" style="border-left:1px solid #111;">
+      <img src="{{domain}}{{site_config.logo.url}}" alt="Logo">
+    </div>
+    <div class="flex-100" style="border-top:1px solid #111;background-color: #bbb;text-align:center;margin: 0">
+      <p style="margin:0;padding:5px"><b>{{site_config.address}}</b></p>
     </div>
   </div>
   <div style="clear:both;overflow:hidden;">
     <div style="width:10%;float:left">To,</div>
-    <div style="width:56.66%;float:left"><b>{{company_name}}</b></div>
-    <div style="width:33.33%;float:left"><b>Date:</b></div>
+    <div style="width:60%;float:left"><b>{{company_name}}</b></div>
+    <div style="width:29%;float:right"><b>Date: </b>{{date|date:"d-m-Y" }}</div>
   </div>
+  <br>
   <br>
   <table>
     <thead>
